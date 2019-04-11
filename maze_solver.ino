@@ -18,16 +18,16 @@ int echoL = 12;
 int triggerL = 13;
 
 // Constants
+int OBSTACLE_CLOSE = -1;  // Determines how close to a wall the robot must get before turning. May be adjusted
 #define LEFT 3
 #define RIGHT 2
 #define STRAIGHT 1
-#define OBSTACLE_CLOSE 10  // Determines how close to a wall the robot must get before turning. May be adjusted
 #define WAIT_TIME 290           // Time between commands.
-#define STRAIGHT_TIME 800      // How long to go straight
-#define LEFT_TURN_TIME 455      // How long for left turn
-#define RIGHT_TURN_TIME 355     // How long for right turn
-#define LEFT_SPEED 135
-#define RIGHT_SPEED 240
+#define STRAIGHT_TIME 50      // How long to go straight
+#define LEFT_TURN_TIME  345     // How long for left turn
+#define RIGHT_TURN_TIME 270     // How long for right turn
+#define LEFT_SPEED 145
+#define RIGHT_SPEED 237
 
 // Initialize variables
 float straightDistance = 0, rightDistance = 0, leftDistance = 0;
@@ -52,36 +52,28 @@ void setup() {
 
 // Will work, but doesn't actually guarantee a solved maze as it is right now
 void loop() {
-  GoStraight();
-  
-  RightTurn90(); //TEST THIS TURN
-
-  
-  //LeftTurn90(); //LEFT TURN IS GOOD!
-  
-  
-  /*
+  /*while (GetDistance(STRAIGHT) > OBSTACLE_CLOSE) {
+    GoStraight();
+  } */
   
   straightDistance = GetDistance(STRAIGHT);
   rightDistance = GetDistance(RIGHT);
   leftDistance = GetDistance(LEFT);
+  GoStraight();
 
-  if (straightDistance < OBSTACLE_CLOSE) {
-    if (leftDistance < OBSTACLE_CLOSE && rightDistance < OBSTACLE_CLOSE) {
-      LeftTurn90();
-      LeftTurn90();
-    }
-    else if (leftDistance > rightDistance) {
+  if (straightDistance < OBSTACLE_CLOSE){
+//  if (leftDistance < OBSTACLE_CLOSE && rightDistance < OBSTACLE_CLOSE) {
+//      LeftTurn90();
+//      LeftTurn90();
+//    }
+    if (leftDistance > rightDistance) {
       LeftTurn90();
     }
     else if (rightDistance > leftDistance) {
       RightTurn90();
     }
   }
-  */
-  
-  
-  
+  OBSTACLE_CLOSE = 12;
 }
 
 void GoStraight() {
@@ -96,7 +88,7 @@ void GoStraight() {
 
   
   //For testing
-  delay(STRAIGHT_TIME);
+  //delay(STRAIGHT_TIME);
 
   
 
