@@ -22,10 +22,11 @@ int OBSTACLE_CLOSE = -1;  // Determines how close to a wall the robot must get b
 #define LEFT 3
 #define RIGHT 2
 #define STRAIGHT 1
-#define WAIT_TIME 290           // Time between commands.
-#define STRAIGHT_TIME 50      // How long to go straight
-#define LEFT_TURN_TIME  345     // How long for left turn
-#define RIGHT_TURN_TIME 270     // How long for right turn
+#define WAIT_TIME 500           // Time between commands.
+#define STRAIGHT_TIME 00        // How long to go straight
+#define BACK_TIME 50        // How long to go back
+#define LEFT_TURN_TIME  270     // How long for left turn
+#define RIGHT_TURN_TIME 230     // How long for right turn
 #define LEFT_SPEED 145
 #define RIGHT_SPEED 237
 
@@ -54,14 +55,22 @@ void setup() {
 void loop() {
   /*while (GetDistance(STRAIGHT) > OBSTACLE_CLOSE) {
     GoStraight();
-  } */
+  } 
   
+  GoStraight();
+  RightTurn90();
+  RightTurn90();
+  */
+  
+
   straightDistance = GetDistance(STRAIGHT);
   rightDistance = GetDistance(RIGHT);
   leftDistance = GetDistance(LEFT);
+  
   GoStraight();
-
+  
   if (straightDistance < OBSTACLE_CLOSE){
+    RollBack();
 //  if (leftDistance < OBSTACLE_CLOSE && rightDistance < OBSTACLE_CLOSE) {
 //      LeftTurn90();
 //      LeftTurn90();
@@ -73,7 +82,9 @@ void loop() {
       RightTurn90();
     }
   }
-  OBSTACLE_CLOSE = 12;
+  
+  
+  OBSTACLE_CLOSE = 10;
 }
 
 void GoStraight() {
@@ -90,8 +101,22 @@ void GoStraight() {
   //For testing
   //delay(STRAIGHT_TIME);
 
-  
+  return;
+}
+void RollBack() {
+  Pause();
+  // Sets all wheels to backward     -    these may need to be changed
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+    analogWrite(ena, LEFT_SPEED);
+    analogWrite(enb, RIGHT_SPEED);
 
+    delay(BACK_TIME);
+
+    Pause();
+    
   return;
 }
 
