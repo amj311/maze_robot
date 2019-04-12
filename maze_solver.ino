@@ -19,6 +19,7 @@ int triggerL = 13;
 
 // Constants
 int OBSTACLE_CLOSE = -1;  // Determines how close to a wall the robot must get before turning. May be adjusted
+int T_BONE = 30;  // Determines how far left and rught should be to consider open paths.
 #define LEFT 3
 #define RIGHT 2
 #define STRAIGHT 1
@@ -71,11 +72,15 @@ void loop() {
   
   if (straightDistance < OBSTACLE_CLOSE){
     RollBack();
-//  if (leftDistance < OBSTACLE_CLOSE && rightDistance < OBSTACLE_CLOSE) {
-//      LeftTurn90();
-//      LeftTurn90();
-//    }
-    if (leftDistance > rightDistance) {
+    if (leftDistance < OBSTACLE_CLOSE && rightDistance < OBSTACLE_CLOSE) {
+      LeftTurn90();
+      LeftTurn90();
+    }
+    else if (leftDistance > T_BONE && rightDistance > T_BONE)
+    {
+      LeftTurn90();
+    }
+    else if (leftDistance > rightDistance) {
       LeftTurn90();
     }
     else if (rightDistance > leftDistance) {
